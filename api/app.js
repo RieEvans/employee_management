@@ -1,10 +1,15 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 const departmentRoutes = require('../routes/department_routes');
 const {fetchEmployees, createEmployee, editEmployee, removeEmployee} = require('../controller/employee_controller')
 const {saveDepartments, deleteDepartment} = require('../controller/department_controller')
 const dbMiddleWare = require('./database');
+
+app.use(cors({
+    origin: 'https://employee-management-psi-three.vercel.app', // Allow your frontend's domain
+}));
 
 app.use(express.static(path.join(__dirname, '../pages')));
 app.use(express.json());
