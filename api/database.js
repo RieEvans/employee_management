@@ -24,7 +24,6 @@ const dbMiddleWare = async (req, res, next) => {
         try {
             const pool = await sql.connect(sqlConfig);
             res.locals.conn = pool;
-            console.log('Database connection established');
         } catch (error) {
             console.error('Database connection failed:', error.message);
             return res.status(500).json({ message: 'Database connection failed' });

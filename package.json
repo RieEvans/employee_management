@@ -4,6 +4,11 @@
     "express": "^4.21.2",
     "http-server": "^14.1.1",
     "mssql": "^11.0.1",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "path": "^0.12.7"
+  },
+  "scripts": {
+    "start": "node ./api/app.js",
+    "dev": "nodemon ./api/app.js"
   }
 }

@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
-const departmentRoutes = require('./routes/department_routes');
-const {fetchEmployees, createEmployee, editEmployee, removeEmployee} = require('./controller/employee_controller')
-const {saveDepartments, deleteDepartment} = require('./controller/department_controller')
-const dbMiddleWare = require('./config/database');
+const path = require('path');
+const departmentRoutes = require('../routes/department_routes');
+const {fetchEmployees, createEmployee, editEmployee, removeEmployee} = require('../controller/employee_controller')
+const {saveDepartments, deleteDepartment} = require('../controller/department_controller')
+const dbMiddleWare = require('./database');
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '../pages')));
 app.use(express.json());
 app.use(dbMiddleWare);
 
