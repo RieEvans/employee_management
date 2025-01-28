@@ -1,0 +1,13 @@
+ECHO is on.
+# Environment variables
+.env
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db

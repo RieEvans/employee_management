@@ -1,11 +1,12 @@
 const sql = require('mssql');
+require('dotenv').config();
 
 const sqlConfig = {
-    user: 'sa',
-    password: 'masterkey_2233#',
-    database: 'Jeonsoft',
-    server: 'localhost',
-    port: 2019,
+    user: process.env.DB_USER || 'sa',
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'Jeonsoft',
+    server: process.env.DB_SERVER,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 2019,
     pool: {
         max: 10,
         min: 0,
@@ -14,7 +15,7 @@ const sqlConfig = {
     options: {
         encrypt: false, // For Windows SQL Server
         trustServerCertificate: true,
-        enableArithAbort: false
+        enableArithAbort: false,
     },
 };
 
