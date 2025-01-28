@@ -1,6 +1,6 @@
 async function fetchEmployees() {
     try {
-        const response = await fetch('http://localhost:4000/employees');
+        const response = await fetch('https://employee-management-nine-lyart.vercel.app/employees');
         if (response) {
             const employees = await response.json();
             const employeeTableBody = document.querySelector('#employeeTable tbody');
