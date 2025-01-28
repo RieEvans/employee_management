@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4b286d;
+            text-align: center;
+        }
+        section {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #4b286d;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4b286d;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #714a91;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4b286d;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e6e6f0;
+        }
+        #responseMessage {
+            text-align: center;
+            color: #4b286d;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 20px; /* Adjust width */
+            height: 20px; /* Adjust height */
+            cursor: pointer; /* Change cursor to pointer */
+            accent-color: #007BFF; /* Change the color of the checkbox */
+        }
+
+        /* Optional: Align label text with the checkbox */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Add space between checkbox and label text */
+            font-size: 16px; /* Adjust font size for the label text */
+            color: #333; /* Adjust text color */
+        }
+
+        /* Style on hover or focus */
+        .checkbox-label input[type="checkbox"]:hover {
+            box-shadow: 0 0 5px #007BFF;
+        }
+
+        .checkbox-label input[type="checkbox"]:focus {
+            outline: 2px solid #007BFF;
+            outline-offset: 2px;
+        }
+
+        #editModal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+        }
+        #editModalOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">Employee Management</a>
+    </header>
+    <section style="position: relative;">
+        <h1>Department Management</h1>
+        
+        <form id="insertDepartmentForm" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; ">
+            <label for="departmentName" style="display: flex; align-items: center; width: 70%;">
+                <span>Department</span>
+                <input 
+                    id="departmentName" 
+                    name="departmentName" 
+                    placeholder="Enter department name" 
+                    required 
+                    style="margin-left: 10px; margin-top: 11px;"
+                >
+            </label>
+            <label for="isChecked" class="checkbox-label">
+                Active
+                <input type="checkbox" id="isChecked" name="isChecked" style="margin-top: 11px;" checked>
+            </label>
+            <button type="submit">Add Department</button>
+        </form>
+        
+        <div id="responseMessage"></div>
+
+        <h2>Department List</h2>
+        <table id="departmentTable">
+            <thead>
+                <tr>
+                    <th>Department ID</th>
+                    <th>Department Name</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Department rows will be dynamically inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Edit Modal -->
+        <div id="editModal" style="position: relative; display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background: whitesmoke; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 10px;">
+            <div style="background-color: #4b286d; position: absolute; top: 0; left: 0; width: 100%; height: 25px; border-top-left-radius: 10px; border-top-right-radius: 10px;" ></div>
+            <h3>Edit Department</h3>
+            <form id="editDepartmentForm">
+                <label for="editDepartmentName">Department Name</label>
+                <input id="editDepartmentName" name="editDepartmentName" placeholder="Enter department name" style="width: 350px;" required>
+                <label for="editIsChecked" class="checkbox-label">
+                    Active
+                    <input type="checkbox" id="editIsChecked" name="editIsChecked">
+                </label>
+                <input type="hidden" id="editDepartmentId" name="editDepartmentId">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" id="closeModal">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <script type="module" src="department.js"></script>
+</body>
+</html>
